@@ -1,0 +1,143 @@
+# Hypertext Transfer Protocol: HTTP
+
+
+## Network Application Architectures
+- Two Main Systems
+  - 1. **Clien-server Model**
+  - 2. **Peer-to-Peer Model**
+- Both operate and live on the **EDGE**
+- ### Client-Server Model
+  - Clients request info from server
+  - Server provides info to client
+  - Clients DONT talk to eachother
+  - DISTINCT ROLES
+    - Client **consume** data, server **provides**
+  - #### Servers
+    - Must always be avilable for applications to properly work
+    - Usually fixed IP
+    - Can run essentially on any hardware if there are not many clients
+  - #### Clients
+    - Only on when usrr needs them
+    - IP doesnt matter b/c they talk to server first
+    - Dont need to be as powerful as server
+    - Client-Server Communication
+      - Follows request-response messaging pattern
+      - client submits reuqest in agreed on format
+      - Server process and returns data in proper format
+- ### Peer-to-Peer (P2P) Model
+  - No central server
+  - Focusus on comms btwn peers 
+  - Benefits
+    - self-scalable
+    - Cost-effective
+  - Challenges
+    - Security and privacy more complicated
+    - requires more sophistaced models and protocols
+    - potential issue with performance and reliability
+
+## The Web and HTTP 
+- World Wide Web is one of many applications that run on the internet
+- Web's application protocol is HTTP / HTTPS
+- Web browsers (clients) exchange HTTP messages with servers to get web page shit
+- ### Anatomy of Web Page
+  - Web page consist of a lot of objects/files
+  - All files referenced using URLs
+  - Base HTML files include references to all files needed for page
+- ### HTTP Protocol
+  - Defines how clients communicate with server to request content
+  - General Process
+    - 1. Client opens TCP connection to server on port 80 (HTTP) or 443 (HTTPS)
+    - 2. Server accepts
+    - 3. CLient sends HTTP request and receives HTTP response
+    - 4. connection closed
+- ### HTTP Request Message
+  - > Format for HTTP Message
+    - >   ![some](httpMessage.png)
+- ### Common Request Message Method Types
+  - **GET**: Most common, requests content, no body
+  - **POST**: Requests content and sends data in message body
+  - **HEAD**: Like GET, but only retreives HEADER,
+  - **PUT**: Uploads file to specific location on server, file included in message body
+  - **DELETE**: Delete specific resource on server
+  - > EXAMPLE OF HTTP REQUEST MESSAGE
+    - > ![some](httpMessageExample.png)
+- ### Common HTTP Request Headers
+  - Many different headers possible, but are optional
+  - Some common ones include
+    - Host: addy of server
+    - User-Agent: web browser that generated request
+    - Accept: Media types by client
+    - etc LOOK AT SLIDE 18 if u want em all
+- ### HTTP Response Message
+  - similar to request
+  - > ![some](responseMessage.png)
+  - #### Common HTTP Response Satus Codes
+    - 200 OK: Request success, requested content in message body
+    - 301 Moved Perm: Request obj has moved, ,new url included in location header
+    - 400 Bad Request: Server could not understand, syntax error from client
+    - 404 Not Found: requested rescourse not found
+    - 500 Internal Server error: some bad happend on server side
+  - #### Common HTTP Response Headers
+    - Date: Timestamp when response was made
+    - Server: Info about web server software
+    - Last-Modified: Last modified time stamp
+    - etc
+
+## Cookies
+- HTTP is a **STATELESS PROTOCOL**
+  - each request independent of prior ones
+  - Server does not rmbr prior requests
+- Cookies are a way to maintain state across requests
+  - Track user behavior
+  - Keep users  logged in
+  - Rmbr preferences
+- ### 4 Components to Cookies
+  - 1. Set-Cookie header in an HTTP response message
+  - 2. Cookie heaer in an HTTP request message
+  - 3. Cookie storage on users device, managed by browerser
+  - 4. Server-side storage linking cookie values to data
+- ### Types of Cookies
+  - **Sessions Cookies**
+    - temporary, deleted when browser closed
+    - often used to keep u logged in
+  - **Persistent Cookies**
+    - Persist across sessions, expire after set amt of time (days to years)
+    - Useful for
+      - Remaining logged in across sessions
+      - Tracking
+      - Personilzation
+- ### Extra Details
+  - Cookies received from **server** can contain several attributes
+    - name-val pair
+    - Experation date
+    - Domain attrivute
+    - etc
+  - Cookies in a **REQUEST** from the **CLIENT JUST INCLUDE NAME-VAL PAIR** 
+  - Limitations
+    - Cookies limuited to 4kB in size
+    - Browser limit number of cookies allowed in domain
+    - Users can delete and block cookies
+  - ### Security Implications
+    - Cross-Site Scrupting (XSS) Attcaks
+      - javascript cookies designed to steal info, can be on ads and shit
+    - Cross-Site Request Forgery (CSRF) Attacks
+      - when malicious site tricks a users browser into making not wanted requests to another site where user is authenticated
+      - Using info from one site to steal shit from another
+    - Lead to privacy concers 
+      - THird party cookies on websites
+      - However many people block these now
+
+## Web Caching
+- Stores previously requested data closer to end users
+- goal is to make a request without contacting orgin server
+- Benefits
+  - Reduces response time for clients
+  - Reduces load on orgin server
+- Web caches operate as client and server application
+- Caches can be local to the user or manged by ISP or institution
+- ### Web Caching Process
+  - 1. User requests object from website
+  - 2. Reuqest is routed to a cache proxy server
+  - 3. The cache proxy server tries to serve the requested object
+    - a. If obj is cached, it returns it to client
+    - b. Otherwise, request the object from remote ORGIN SERVER, cache it, reuturn to client

@@ -35,6 +35,7 @@
 - TCP/IP Model
   - Combines some of the layers of the OSI model
   - Still uses same ideas, just condensed
+  - doesnt include presentation or session layer
 
 
 ### Protocol Data Units and Encapsulation
